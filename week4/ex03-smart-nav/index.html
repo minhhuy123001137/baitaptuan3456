@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 3: Smart Navigation Bar | Trần Lê Minh Huy - LHU">
+    <title>Bài 3: Smart Navigation Bar | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* ========================================================
+           SMART NAV DISPLAY BOX (MOBILE FIRST VỚI DISPLAY: NONE)
+        ======================================================== */
+        .smart-nav-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 0 24px;
+            box-shadow: var(--shadow-md);
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .smart-nav-bar {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 1. MẶC ĐỊNH CHO MOBILE (< 768px):
+           - Menu links bị ẩn hoàn toàn bằng display: none
+           - Nút Hamburger hiển thị
+        ======================================================== */
+        .smart-nav-links {
+            display: none; /* Yêu cầu đề bài: display: none trên mobile */
+            list-style: none;
+            gap: 10px;
+        }
+
+        .smart-nav-btn {
+            display: flex; /* Mặc định hiển thị nút Menu trên Mobile */
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            background: var(--card-surface);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--text-color);
+        }
+
+        /* Menu trượt dạng popup khi mở trên mobile */
+        .mobile-drop-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .mobile-drop-menu.show {
+            display: flex;
+        }
+
+        /* 2. MEDIA QUERY CHO MÀN HÌNH LỚN (>= 768px):
+           - Nút Hamburger ẩn đi bằng display: none
+           - Menu links hiển thị dạng flex
+        ======================================================== */
+        @media screen and (min-width: 768px) {
+            .smart-nav-btn {
+                display: none; /* Ẩn nút Menu trên màn hình lớn */
+            }
+
+            .smart-nav-links {
+                display: flex; /* Bật lại menu đầy đủ theo hàng ngang */
+            }
+
+            .mobile-drop-menu {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 4</a></li>
+                <li><a href="../ex04-theme/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up">
+            <span class="eyebrow">TUẦN 04 • BÀI TẬP 03</span>
+            <h1>Smart Navigation Bar</h1>
+            <p class="lead">Xây dựng thanh menu thông minh: Trên màn hình lớn hiện đầy đủ các liên kết. Trên màn hình dưới 768px, ẩn toàn bộ menu bằng <code>display: none</code> và chỉ hiển thị một nút <strong>"Menu"</strong>.</p>
+        </div>
+
+        <!-- SMART NAV DEMO BOX -->
+        <div class="smart-nav-box" data-aos="fade-up" data-aos-delay="100">
+            <div class="smart-nav-bar">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="logo-symbol">TLMH</span>
+                    <strong>Minh Huy SmartNav</strong>
+                </div>
+
+                <!-- Nút Hamburger trên Mobile -->
+                <button id="smart-nav-btn-elem" class="smart-nav-btn" onclick="toggleSmartMenu()">
+                    <span>☰</span>
+                    <span>Menu</span>
+                </button>
+
+                <!-- Menu đầy đủ trên Desktop -->
+                <ul class="smart-nav-links">
+                    <li><a href="#" class="menu-link active">Trang chủ</a></li>
+                    <li><a href="#" class="menu-link">Giới thiệu</a></li>
+                    <li><a href="#" class="menu-link">Dự án Web</a></li>
+                    <li><a href="#" class="menu-link">Học phần LHU</a></li>
+                    <li><a href="#" class="btn small btn-primary">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <!-- Khung menu thả xuống trên mobile khi nhấn nút -->
+            <div id="mobile-smart-drop" class="mobile-drop-menu">
+                <a href="#" class="menu-link active">🏠 Trang chủ</a>
+                <a href="#" class="menu-link">👨‍💻 Giới thiệu Minh Huy</a>
+                <a href="#" class="menu-link">📁 Dự án Web LHU</a>
+                <a href="#" class="menu-link">📞 Liên hệ trực tiếp</a>
+            </div>
+        </div>
+
+        <div class="demo" data-aos="fade-up" data-aos-delay="200" style="margin-top:30px;">
+            <h3>Kiểm Tra Tính Năng:</h3>
+            <p>1. <strong>Trên máy tính (&ge; 768px):</strong> Bạn sẽ thấy thanh menu ngang đầy đủ với các liên kết và nút Action.</p>
+            <p>2. <strong>Trên điện thoại (&lt; 768px):</strong> Menu ngang biến mất nhờ <code>display: none;</code>, thay thế bằng nút <code>[☰ Menu]</code>. Bấm vào nút để mở/đóng menu thả xuống!</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 3 Tuần 4</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+    <script>
+        function toggleSmartMenu() {
+            const drop = document.getElementById('mobile-smart-drop');
+            drop.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

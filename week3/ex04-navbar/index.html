@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 4: Thanh Điều Hướng Phức Hợp (Complex Nav Bar) | Trần Lê Minh Huy - LHU">
+    <title>Bài 4: Thanh Điều Hướng Phức Hợp | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* Complex Navbar Container Phân Bổ 3 Nhóm Bằng space-between */
+        .complex-nav-showcase {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 0 28px;
+            box-shadow: var(--shadow-md);
+            margin-top: 30px;
+        }
+
+        .complex-nav-inner {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Yêu cầu cốt lõi của đề bài */
+            gap: 20px;
+        }
+
+        /* 1. Nhóm Logo */
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 2. Nhóm Menu Chính ở giữa */
+        .center-menu-group {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 6px;
+        }
+
+        .center-menu-item {
+            position: relative;
+        }
+
+        .center-menu-link {
+            padding: 10px 16px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all var(--duration-fast) ease;
+        }
+
+        .center-menu-link:hover, .center-menu-link.active {
+            color: var(--primary-color);
+            background: var(--primary-glow);
+        }
+
+        /* Dropdown Menu dàn Flexbox */
+        .dropdown-box {
+            position: absolute;
+            top: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            padding: 18px;
+            display: flex; /* Dàn bằng Flexbox theo yêu cầu */
+            gap: 20px;
+            min-width: 520px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all var(--duration-normal) var(--ease-spring);
+            z-index: 100;
+        }
+
+        .center-menu-item:hover .dropdown-box {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dropdown-col-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            letter-spacing: 0.08em;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dropdown-sublink {
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--duration-fast) ease;
+        }
+
+        .dropdown-sublink:hover {
+            background: var(--primary-glow);
+            color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        /* 3. Nhóm Nút Action bên phải */
+        .action-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media (max-width: 960px) {
+            .center-menu-group { display: none; }
+            .complex-nav-inner { justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 3</a></li>
+                <li><a href="../ex05-product/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up">
+            <span class="eyebrow">TUẦN 03 • BÀI TẬP 04</span>
+            <h1>Thanh Điều Hướng Phức Hợp (Complex Navigation Bar)</h1>
+            <p class="lead">Thiết kế một Header hoàn chỉnh phân bổ 3 nhóm phần tử bằng <code>justify-content: space-between</code>: Logo bên trái, Menu chính ở giữa kèm Dropdown 2 cột dàn bằng Flexbox, và các nút Action bên phải.</p>
+        </div>
+
+        <!-- DEMO THANH ĐIỀU HƯỚNG PHỨC HỢP -->
+        <div class="complex-nav-showcase" data-aos="fade-up" data-aos-delay="100">
+            <div class="complex-nav-inner">
+                <!-- 1. Cụm Logo (Trái) -->
+                <div class="brand-group">
+                    <span class="logo-symbol">TLMH</span>
+                    <strong>Minh Huy Studio</strong>
+                </div>
+
+                <!-- 2. Cụm Menu Chính (Giữa) -->
+                <ul class="center-menu-group">
+                    <li class="center-menu-item"><a href="#" class="center-menu-link active">Trang chủ</a></li>
+                    
+                    <!-- Mục Dropdown -->
+                    <li class="center-menu-item">
+                        <a href="#" class="center-menu-link">
+                            Khóa học Web &amp; AI <span style="font-size:0.75rem;">▾</span>
+                        </a>
+                        <div class="dropdown-box">
+                            <div class="dropdown-col">
+                                <span class="dropdown-col-title">Kiến Trúc Frontend</span>
+                                <a href="#" class="dropdown-sublink">🌐 HTML5 Semantic &amp; SEO</a>
+                                <a href="#" class="dropdown-sublink">📐 CSS Grid 2 Chiều</a>
+                                <a href="#" class="dropdown-sublink">📱 Mobile First Responsive</a>
+                            </div>
+                            <div class="dropdown-col">
+                                <span class="dropdown-col-title">AI &amp; Chuyển Động</span>
+                                <a href="#" class="dropdown-sublink">🤖 Vibe Coding Prompting</a>
+                                <a href="#" class="dropdown-sublink">✨ CSS Keyframe Animations</a>
+                                <a href="#" class="dropdown-sublink">🚀 Tối Ưu Hóa GPU 60fps</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="center-menu-item"><a href="#" class="center-menu-link">Dự án LHU</a></li>
+                    <li class="center-menu-item"><a href="#" class="center-menu-link">Về Minh Huy</a></li>
+                </ul>
+
+                <!-- 3. Cụm Action Buttons (Phải) -->
+                <div class="action-group">
+                    <button class="btn small secondary">Cổng SV</button>
+                    <button class="btn small btn-primary">Tải Profile</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo" data-aos="fade-up" data-aos-delay="200" style="margin-top:30px;">
+            <h3>Hướng Dẫn Tương Tác:</h3>
+            <p>1. Rê chuột vào mục <strong>"Khóa học Web &amp; AI"</strong> để kích hoạt menu Dropdown dàn 2 cột bằng Flexbox.</p>
+            <p>2. Chú ý 3 cụm (Logo, Menu, Actions) luôn giữ khoảng cách dàn đều 2 đầu nhờ <code>justify-content: space-between</code>.</p>
+            <p>3. Nút bấm hỗ trợ xúc giác xúc giác (Tactile Click) co nhẹ khi người dùng nhấn chuột.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 4 Tuần 3</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 6: Mobile-First Contact Form | Trần Lê Minh Huy - LHU">
+    <title>Bài 6: Mobile-First Contact Form | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* ========================================================
+           MOBILE-FIRST CONTACT FORM:
+           - Mobile: Chiếm 100% chiều rộng
+           - Desktop (>= 768px): Giới hạn chiều rộng và căn giữa trang
+        ======================================================== */
+        .contact-card-box {
+            width: 100%; /* MOBILE FIRST: Mặc định chiếm 100% chiều rộng */
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            box-shadow: var(--shadow-md);
+            margin-top: 30px;
+        }
+
+        .form-row-2col {
+            display: flex;
+            flex-direction: column; /* Mobile: Xếp chồng */
+            gap: 18px;
+        }
+
+        /* MEDIA QUERY: Desktop giới hạn max-width và căn giữa trang */
+        @media screen and (min-width: 768px) {
+            .contact-card-box {
+                max-width: 720px; /* Giới hạn chiều rộng trên Desktop */
+                margin: 30px auto 0; /* Căn giữa trang theo yêu cầu đề bài */
+                padding: 44px;
+            }
+
+            .form-row-2col {
+                flex-direction: row; /* Desktop: Chia 2 cột */
+            }
+
+            .form-row-2col > div {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 4</a></li>
+                <li><a href="../../index.html" class="menu-link">Về Index Hub →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up" style="text-align:center; max-width:760px; margin:0 auto 20px;">
+            <span class="eyebrow">TUẦN 04 • BÀI TẬP 06</span>
+            <h1>Mobile-First Contact Form</h1>
+            <p class="lead">Thiết kế form liên hệ theo nguyên tắc Mobile First: Các ô nhập chiếm 100% chiều rộng trên điện thoại. Trên Desktop (&ge; 768px), form được giới hạn chiều rộng <code>720px</code> và căn giữa trang <code>margin: 0 auto</code>.</p>
+        </div>
+
+        <!-- FORM CARD BOX -->
+        <div class="contact-card-box" data-aos="fade-up" data-aos-delay="100">
+            <form action="#" method="POST" data-demo-form>
+                <div class="form-row-2col">
+                    <div>
+                        <label for="c-name">Họ và Tên của bạn *</label>
+                        <input type="text" id="c-name" placeholder="Ví dụ: Nguyễn Văn An" required>
+                    </div>
+                    <div>
+                        <label for="c-email">Địa chỉ Email *</label>
+                        <input type="email" id="c-email" placeholder="name@lhu.edu.vn" required>
+                    </div>
+                </div>
+
+                <div class="form-row-2col">
+                    <div>
+                        <label for="c-phone">Số điện thoại</label>
+                        <input type="tel" id="c-phone" placeholder="0901 234 567">
+                    </div>
+                    <div>
+                        <label for="c-topic">Chủ đề quan tâm *</label>
+                        <select id="c-topic" required>
+                            <option value="">-- Chọn chủ đề --</option>
+                            <option value="portfolio">Trao đổi dự án Portfolio</option>
+                            <option value="web-dev">Tư vấn Thiết kế Web &amp; AI</option>
+                            <option value="other">Hợp tác khác</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="c-message">Nội dung tin nhắn *</label>
+                    <textarea id="c-message" rows="5" placeholder="Nhập lời nhắn gửi đến Trần Lê Minh Huy..." required></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                    <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+                        <input type="checkbox" required checked>
+                        <span>Tôi xác nhận thông tin là chính xác.</span>
+                    </label>
+
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <span>✉️ Gửi Tin Nhắn Cho Minh Huy</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="code-note" data-aos="fade-up" style="max-width:720px; margin:30px auto 0;">
+            <strong>Chuẩn mực UI/UX:</strong> Khi gửi biểu mẫu, nút bấm tự động chuyển sang trạng thái xử lý và hiển thị thông báo thành công phản hồi trực tiếp cho người dùng.
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 6 Tuần 4</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>

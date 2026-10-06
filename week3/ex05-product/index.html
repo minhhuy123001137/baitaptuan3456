@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 5: Trang Chi Tiết Sản Phẩm (Product Page) | Trần Lê Minh Huy - LHU">
+    <title>Bài 5: Trang Chi Tiết Sản Phẩm | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* Bố cục lớn Grid 60% / 40% theo đúng yêu cầu đề bài */
+        .product-page-grid {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            gap: 36px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--shadow-md);
+            margin-top: 30px;
+        }
+
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .product-main-img-box {
+            width: 100%;
+            height: 420px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--card-surface);
+            border: 1px solid var(--border-color);
+        }
+
+        .product-main-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s var(--ease-smooth);
+        }
+
+        .product-main-img-box:hover img {
+            transform: scale(1.04);
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Flexbox cho các tùy chọn con bên trong */
+        .options-row-flex {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Vòng tròn màu */
+        .color-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+            transition: all var(--duration-fast) ease;
+        }
+        .color-dot.active, .color-dot:hover {
+            transform: scale(1.18);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        /* Nút chọn size */
+        .size-btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--card-surface);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all var(--duration-fast) ease;
+        }
+        .size-btn.active, .size-btn:hover {
+            background: var(--primary-glow);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Bộ đếm số lượng (+ / -) dàn Flexbox */
+        .qty-control-flex {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--card-surface);
+        }
+        .qty-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--duration-fast) ease;
+        }
+        .qty-btn:hover {
+            background: var(--primary-glow);
+            color: var(--primary-color);
+        }
+        .qty-val {
+            width: 44px;
+            text-align: center;
+            font-weight: 800;
+            font-family: var(--font-mono);
+        }
+
+        @media (max-width: 900px) {
+            .product-page-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-main-img-box {
+                height: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 3</a></li>
+                <li><a href="../ex06-dashboard/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up">
+            <span class="eyebrow">TUẦN 03 • BÀI TẬP 05</span>
+            <h1>Trang Chi Tiết Sản Phẩm (Product Page Layout)</h1>
+            <p class="lead">Kết hợp CSS Grid tỷ lệ 60% (Ảnh sản phẩm bên trái) và 40% (Thông tin mua hàng bên phải). Sử dụng Flexbox để dàn hàng các lựa chọn Size (S, M, L), Màu sắc và bộ nút Tăng/Giảm số lượng.</p>
+        </div>
+
+        <!-- PRODUCT GRID LAYOUT DISPLAY -->
+        <div class="product-page-grid" data-aos="fade-up" data-aos-delay="100">
+            <!-- CỘT 1 (60%): GALLERY ẢNH -->
+            <div class="product-gallery">
+                <div class="product-main-img-box">
+                    <img id="main-prod-img" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&q=80" alt="NovaPro AI Wireless Headphone">
+                </div>
+            </div>
+
+            <!-- CỘT 2 (40%): THÔNG TIN & CONTROLS -->
+            <div class="product-details">
+                <div>
+                    <span class="tag">FLAGSHIP PRODUCT</span>
+                    <h2 style="font-size:1.8rem; margin:8px 0;">NovaPro Spatial AI Headphone</h2>
+                    <p style="color:var(--text-muted); font-size:0.88rem;">Mã thiết bị: NP-2026-TLMH • Phiên bản giới hạn</p>
+                </div>
+
+                <div style="display:flex; align-items:baseline; gap:12px;">
+                    <span style="font-size:2.2rem; font-weight:800; color:var(--primary-color); font-family:var(--font-mono);">3.490.000₫</span>
+                    <span style="color:var(--text-muted); text-decoration:line-through;">4.500.000₫</span>
+                    <span class="badge" style="background:#fef2f2; color:#ef4444;">-25%</span>
+                </div>
+
+                <p style="font-size:0.95rem; color:var(--text-secondary);">
+                    Công nghệ xử lý âm thanh vòm AI tích hợp khử tiếng ồn chủ động 48dB. Thiết kế tối ưu bởi <strong>Trần Lê Minh Huy</strong>.
+                </p>
+
+                <!-- TÙY CHỌN 1: MÀU SẮC (DÀN FLEXBOX) -->
+                <div>
+                    <label style="display:block; margin-bottom:10px;">Chọn màu sắc:</label>
+                    <div class="options-row-flex">
+                        <div class="color-dot active" style="background:#0f172a;" title="Đen Midnight" onclick="selectColor(this)"></div>
+                        <div class="color-dot" style="background:#2563eb;" title="Xanh Royal" onclick="selectColor(this)"></div>
+                        <div class="color-dot" style="background:#d97706;" title="Vàng Sand" onclick="selectColor(this)"></div>
+                        <div class="color-dot" style="background:#cbd5e1;" title="Bạc Titan" onclick="selectColor(this)"></div>
+                    </div>
+                </div>
+
+                <!-- TÙY CHỌN 2: SIZE (DÀN FLEXBOX) -->
+                <div>
+                    <label style="display:block; margin-bottom:10px;">Kích cỡ đệm tai:</label>
+                    <div class="options-row-flex">
+                        <button class="size-btn" onclick="selectSize(this)">Size S</button>
+                        <button class="size-btn active" onclick="selectSize(this)">Size M</button>
+                        <button class="size-btn" onclick="selectSize(this)">Size L</button>
+                        <button class="size-btn" onclick="selectSize(this)">Size XL</button>
+                    </div>
+                </div>
+
+                <!-- TÙY CHỌN 3: SỐ LƯỢNG (DÀN FLEXBOX) -->
+                <div>
+                    <label style="display:block; margin-bottom:10px;">Số lượng đặt mua:</label>
+                    <div class="options-row-flex">
+                        <div class="qty-control-flex">
+                            <button class="qty-btn" onclick="changeQty(-1)">-</button>
+                            <span id="qty-display" class="qty-val">1</span>
+                            <button class="qty-btn" onclick="changeQty(1)">+</button>
+                        </div>
+                        <span style="font-size:0.85rem; color:var(--text-muted);">Còn 8 sản phẩm</span>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:12px; margin-top:10px;">
+                    <button class="btn btn-primary" style="flex:1;" onclick="alert('Đã thêm vào giỏ hàng thành công!')">🛒 Thêm vào giỏ</button>
+                    <button class="btn secondary" style="flex:1;">Mua ngay</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 5 Tuần 3</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+    <script>
+        function selectColor(el) {
+            document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function selectSize(el) {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function changeQty(delta) {
+            const display = document.getElementById('qty-display');
+            let val = parseInt(display.textContent) + delta;
+            if (val < 1) val = 1;
+            if (val > 10) val = 10;
+            display.textContent = val;
+        }
+    </script>
+</body>
+</html>

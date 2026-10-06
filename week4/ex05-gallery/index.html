@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 5: Responsive Image Gallery (CSS Grid) | Trần Lê Minh Huy - LHU">
+    <title>Bài 5: Responsive Image Gallery | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* ========================================================
+           CÔNG THỨC VÀNG: repeat(auto-fit, minmax(250px, 1fr))
+           Tự động chia cột mà KHÔNG CẦN Media Queries!
+        ======================================================== */
+        .auto-fit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            transition: all var(--duration-normal) var(--ease-spring);
+            cursor: pointer;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .gallery-img-box {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: var(--card-surface);
+        }
+
+        .gallery-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s var(--ease-smooth);
+        }
+
+        .gallery-card:hover .gallery-img-box img {
+            transform: scale(1.08);
+        }
+
+        .gallery-caption {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 4</a></li>
+                <li><a href="../ex06-contact/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up">
+            <span class="eyebrow">TUẦN 04 • BÀI TẬP 05</span>
+            <h1>Lưới Ảnh Tự Co Giãn (Auto-Fit &amp; MinMax)</h1>
+            <p class="lead">Tạo một lưới ảnh sử dụng cú pháp <code>grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))</code>. Lưới ảnh tự động xuống dòng và co giãn số lượng cột dựa trên chiều rộng màn hình mà không cần viết nhiều Media Queries.</p>
+        </div>
+
+        <!-- AUTO FIT GRID DISPLAY -->
+        <div class="auto-fit-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="gallery-card">
+                <div class="gallery-img-box">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&q=80" alt="Hội Họa Trừu Tượng" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Trừu Tượng Tối Giản</h3>
+                    <p>Nghiên cứu hình khối nghệ thuật số.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="gallery-img-box">
+                    <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=600&q=80" alt="Vệt Màu Sáng Tạo" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Vệt Màu Cảm Xúc</h3>
+                    <p>Sự tương phản giữa vàng và lam.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="gallery-img-box">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=600&q=80" alt="Ánh Sáng Neon" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Ánh Sáng Cyberpunk</h3>
+                    <p>Gam màu công nghệ tương lai.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="gallery-img-box">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" alt="Vi Mạch AI" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Chip Xử Lý AI</h3>
+                    <p>Cấu trúc Nano trong CPU hiện đại.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="gallery-img-box">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" alt="Lập Trình Web" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Lập Trình Web Hiện Đại</h3>
+                    <p>Semantic HTML5 &amp; CSS Variables.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card">
+                <div class="gallery-img-box">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80" alt="Hành Tinh Số" loading="lazy">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Mạng Lưới Toàn Cầu</h3>
+                    <p>Điện toán đám mây &amp; API thời gian thực.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-note" data-aos="fade-up" style="margin-top:30px;">
+            <strong>Cơ chế tự động thích ứng:</strong> Màn hình rộng 1200px sẽ tự chia 4 cột, 900px chia 3 cột, 600px chia 2 cột, và điện thoại 375px co về 1 cột. Mỗi phần tử luôn có độ rộng tối thiểu 250px và co giãn đều bằng <code>1fr</code>.
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 5 Tuần 4</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>

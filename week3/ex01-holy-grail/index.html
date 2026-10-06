@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 1: Holy Grail Layout (Grid Master) | Trần Lê Minh Huy - LHU">
+    <title>Bài 1: Holy Grail Layout | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* Holy Grail CSS Grid Cốt Lõi */
+        .holy-grail-layout {
+            display: grid;
+            min-height: 75vh;
+            grid-template-rows: auto 1fr auto;
+            grid-template-columns: 260px 1fr 280px;
+            grid-template-areas:
+                "header  header  header"
+                "sidebar main    ad"
+                "footer  footer  footer";
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .hg-header {
+            grid-area: header;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hg-sidebar-left {
+            grid-area: sidebar;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .hg-main {
+            grid-area: main;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .hg-sidebar-right {
+            grid-area: ad;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .hg-footer {
+            grid-area: footer;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .nav-list-item {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all var(--duration-fast) ease;
+        }
+
+        .nav-list-item:hover, .nav-list-item.active {
+            background: var(--primary-glow);
+            color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        .ad-banner-box {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border: 1px solid var(--border-hover);
+            border-radius: var(--radius-sm);
+            padding: 18px;
+        }
+
+        @media (max-width: 1024px) {
+            .holy-grail-layout {
+                grid-template-columns: 240px 1fr;
+                grid-template-areas:
+                    "header  header"
+                    "sidebar main"
+                    "ad      main"
+                    "footer  footer";
+            }
+        }
+
+        @media (max-width: 768px) {
+            .holy-grail-layout {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "header"
+                    "sidebar"
+                    "main"
+                    "ad"
+                    "footer";
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link active">← Danh sách Tuần 3</a></li>
+                <li><a href="../ex02-pricing/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up">
+            <span class="eyebrow">TUẦN 03 • BÀI TẬP 01</span>
+            <h1>Thử Thách "Holy Grail Layout" (Grid Master)</h1>
+            <p class="lead">Cấu trúc website 5 phần kinh điển được xây dựng bởi <strong>Trần Lê Minh Huy</strong> với CSS Grid và <code>grid-template-areas</code>. Khi nội dung chính dài thêm, hai Sidebar vẫn giữ tỷ lệ và co giãn đồng bộ.</p>
+        </div>
+
+        <!-- HOLY GRAIL LAYOUT DISPLAY -->
+        <div class="holy-grail-layout" data-aos="fade-up" data-aos-delay="100">
+            <!-- 1. Header -->
+            <header class="hg-header">
+                <div>
+                    <strong>Minh Huy TechPortal</strong> • Kiến trúc CSS Grid
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <span class="badge">grid-template-areas</span>
+                    <span class="badge">100vh</span>
+                </div>
+            </header>
+
+            <!-- 2. Sidebar Trái: Menu -->
+            <aside class="hg-sidebar-left">
+                <h4 style="font-size:0.95rem; text-transform:uppercase; color:var(--primary-color); letter-spacing:0.05em;">📁 Danh mục tin</h4>
+                <nav style="display:flex; flex-direction:column; gap:6px;">
+                    <a href="#ai" class="nav-list-item active">🤖 Trí tuệ nhân tạo (AI) <span class="badge" style="font-size:0.7rem;">Mới</span></a>
+                    <a href="#frontend" class="nav-list-item">🌐 Frontend Architecture</a>
+                    <a href="#css-grid" class="nav-list-item">📐 CSS Grid Master</a>
+                    <a href="#responsive" class="nav-list-item">📱 Mobile First System</a>
+                </nav>
+                <div class="code-note" style="margin-top:auto;">
+                    <strong>Tip:</strong> Cột Sidebar trái chiếm cố định <code>260px</code>.
+                </div>
+            </aside>
+
+            <!-- 3. Main Content: Nội dung chính -->
+            <article class="hg-main">
+                <span class="tag">BÀI VIẾT TIÊU ĐIỂM</span>
+                <h2>Khám Phá Kỷ Nguyên "Vibe Coding" &amp; CSS Grid Hai Chiều</h2>
+                <p style="color:var(--text-muted); font-size:0.85rem;">Tác giả: <strong>Trần Lê Minh Huy</strong> • Sinh viên LHU • 8 phút đọc</p>
+                
+                <p>
+                    Lập trình web hiện đại đòi hỏi sự kết hợp hài hòa giữa thẩm mỹ UI/UX và mã nguồn sạch. 
+                    Thay vì sử dụng các kỹ thuật cũ dễ gây vỡ khung như float hay table, CSS Grid cung cấp hệ tọa độ hai chiều mạnh mẽ, 
+                    cho phép chúng ta kiểm soát chính xác cả hàng và cột.
+                </p>
+
+                <div class="demo-box" style="padding:18px; border-radius:12px; background:var(--card-surface); border:1px solid var(--border-color);">
+                    <h4 style="color:var(--primary-color); margin-bottom:8px;">💡 Thử nghiệm co giãn cột:</h4>
+                    <p style="margin-bottom:0; font-size:0.92rem;">
+                        Nhờ thuộc tính <code>grid-template-columns: 260px 1fr 280px;</code>, cột chính giữa mang giá trị <code>1fr</code> sẽ tự động chiếm trọn vẹn phần diện tích còn lại của màn hình mà không bao giờ bị tràn ngang!
+                    </p>
+                </div>
+
+                <p>
+                    Khi nội dung ở phần thân này mở rộng dài ra với hàng chục đoạn văn bản và biểu đồ, hai cột Sidebar hai bên vẫn kiên định kéo dài song song, tạo nên một bố cục cân đối và chuyên nghiệp.
+                </p>
+            </article>
+
+            <!-- 4. Sidebar Phải: Quảng cáo & Widget -->
+            <aside class="hg-sidebar-right">
+                <div class="ad-banner-box">
+                    <span class="tag" style="margin-bottom:8px;">ĐỐI TÁC</span>
+                    <h4 style="color:var(--text-color); margin-bottom:6px;">Đại Học Lạc Hồng (LHU)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">Đào tạo kỹ sư công nghệ hàng đầu, sẵn sàng hội nhập kỷ nguyên số.</p>
+                    <button class="btn small btn-primary" style="width:100%;">Khám phá LHU</button>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <h4 style="font-size:0.9rem; text-transform:uppercase; color:var(--text-muted);">🔥 Xu hướng đọc</h4>
+                    <div style="font-size:0.88rem; line-height:1.4;">
+                        <strong>01.</strong> Flexbox vs Grid: Khi nào dùng gì?<br>
+                        <small style="color:var(--text-muted);">2.4k lượt xem</small>
+                    </div>
+                    <div style="font-size:0.88rem; line-height:1.4;">
+                        <strong>02.</strong> Bí quyết Mobile First 2026<br>
+                        <small style="color:var(--text-muted);">1.8k lượt xem</small>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 5. Footer -->
+            <footer class="hg-footer">
+                <div>© 2026 Trần Lê Minh Huy • Bố cục Holy Grail chuẩn CSS Grid</div>
+                <div style="display:flex; gap:14px;">
+                    <a href="#">Điều khoản</a>
+                    <a href="#">Bảo mật</a>
+                    <a href="#">Liên hệ</a>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101)</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>

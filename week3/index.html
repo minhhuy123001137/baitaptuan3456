@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tuần 3 — CSS Layout System (Flexbox & Grid) | Trần Lê Minh Huy - LHU">
+    <title>Tuần 3: CSS Layout System | Trần Lê Minh Huy</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../index.html" class="logo" aria-label="Minh Huy Portfolio">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+
+            <input type="checkbox" id="menu-toggle" aria-label="Toggle navigation">
+            <label for="menu-toggle" class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <ul class="menu">
+                <li><a href="../index.html" class="menu-link">← Trang chủ</a></li>
+                <li><a href="#exercises" class="menu-link active">6 Bài tập Tuần 3</a></li>
+                <li><a href="../week4/index.html" class="menu-link">Tuần 4: Responsive →</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="hero">
+            <div class="container hero-grid">
+                <div data-aos="fade-up">
+                    <div class="status-pill">
+                        <span class="status-indicator"></span>
+                        <span>CSS Layout System • Trần Lê Minh Huy</span>
+                    </div>
+                    <h1>Tuần 03: <span class="gradient-text">Flexbox &amp; CSS Grid</span></h1>
+                    <p class="lead">
+                        Hệ thống bài tập thực hành chuyên sâu về dàn trang hiện đại: Không còn sử dụng float hay table, 
+                        tận dụng tối đa sức mạnh của <strong>CSS Grid 2 chiều</strong> và <strong>Flexbox 1 chiều</strong> để xây dựng giao diện chuẩn mực, co giãn linh hoạt.
+                    </p>
+                    <div class="actions">
+                        <a href="#exercises" class="btn btn-primary">Khám phá 6 bài tập</a>
+                        <a href="../index.html" class="btn btn-outline">← Về trang tổng hợp</a>
+                    </div>
+                </div>
+
+                <aside class="hero-card" data-aos="fade-left" data-aos-delay="150">
+                    <span class="tag">MỤC TIÊU TUẦN 3</span>
+                    <h3>Kỹ Năng Cốt Lõi</h3>
+                    <p>Làm chủ mô hình Box Model, Flexbox alignment (`space-between`, `margin-top: auto`), CSS Grid `grid-template-areas`, và Masonry dense auto-flow.</p>
+                    <div class="metric">
+                        <div><strong>06</strong><span>Bài tập</span></div>
+                        <div><strong>100%</strong><span>CSS Thuần</span></div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="exercises" class="section">
+            <div class="container">
+                <div class="section-head" data-aos="fade-up">
+                    <div>
+                        <div class="eyebrow">DANH SÁCH BÀI TẬP TUẦN 3</div>
+                        <h2>6 Thử Thách CSS Layout System</h2>
+                    </div>
+                    <p>Nhấp vào bất kỳ bài tập nào bên dưới để mở giao diện demo tương tác trực tiếp.</p>
+                </div>
+
+                <div class="grid">
+                    <!-- Bài 1 -->
+                    <article class="exercise" data-aos="fade-up" data-aos-delay="100">
+                        <span class="num">BÀI 01</span>
+                        <h3>Holy Grail Layout</h3>
+                        <p>Xây dựng bố cục 5 phần kinh điển của website (Header, Sidebar Menu, Main Content, Sidebar Quảng cáo, Footer) bằng CSS Grid với thuộc tính <code>grid-template-areas</code>.</p>
+                        <div class="badges">
+                            <span class="badge">CSS Grid</span>
+                            <span class="badge">Areas</span>
+                        </div>
+                        <div class="card-footer-actions">
+                            <a href="ex01-holy-grail/index.html" class="btn small btn-primary">Xem chi tiết bài làm →</a>
+                        </div>
+                    </article>
+
+                    <!-- Bài 2 -->
+                    <article class="exercise" data-aos="fade-up" data-aos-delay="150">
+                        <span class="num">BÀI 02</span>
+                        <h3>Bảng Giá Dịch Vụ</h3>
+                        <p>Khu vực 3 gói dịch vụ dàn hàng ngang bằng Flexbox. Căn nút CTA luôn nằm sát đáy bằng <code>margin-top: auto</code> dù nội dung mô tả dài ngắn khác nhau.</p>
+                        <div class="badges">
+                            <span class="badge">Flexbox</span>
+                            <span class="badge">Hover Scale</span>
+                        </div>
+                        <div class="card-footer-actions">
+                            <a href="ex02-pricing/index.html" class="btn small btn-primary">Xem chi tiết bài làm →</a>
+                        </div>
+                    </article>
+
+                    <!-- Bài 3 -->
+                    <article class="exercise" data-aos="fade-up" data-aos-delay="200">
+                        <span class="num">BÀI 03</span>
+                        <h3>Lưới Ảnh Tự Do Masonry</h3>
+                        <p>Thư viện ảnh với các ô to nhỏ đan xen nhau nghệ thuật kiểu Pinterest bằng <code>grid-column: span</code>, <code>grid-row: span</code> và gap 15px đồng nhất.</p>
+                        <div class="badges">
+                            <span class="badge">Masonry</span>
+                            <span class="badge">gap: 15px</span>
+                        </div>
+                        <div class="card-footer-actions">
+                            <a href="ex03-gallery/index.html" class="btn small btn-primary">Xem chi tiết bài làm →</a>
+                        </div>
+                    </article>
+
+                    <!-- Bài 4 -->
+                    <article class="exercise" data-aos="fade-up" data-aos-delay="250">
+                        <span class="num">BÀI 04</span>
+                        <h3>Complex Navigation Bar</h3>
+                        <p>Header gồm 3 nhóm (Logo, Menu, Nút Action) phân bổ bằng <code>justify-content: space-between</code>. Menu chính có Dropdown thả xuống dàn bằng Flexbox.</p>
+                        <div class="badges">
+                            <span class="badge">space-between</span>
+                            <span class="badge">Dropdown</span>
+                        </div>
+                        <div class="card-footer-actions">
+                            <a href="ex04-navbar/index.html" class="btn small btn-primary">Xem chi tiết bài làm →</a>
+                        </div>
+                    </article>
+
+                    <!-- Bài 5 -->
+                    <article class="exercise" data-aos="fade-up" data-aos-delay="300">
+                        <span class="num">BÀI 05</span>
+                        <h3>Product Page Layout</h3>
+                        <p>Bố cục thương mại điện tử: Ảnh sản phẩm (60%) và Thông tin (40%). Bên trong dùng Flexbox dàn hàng các lựa chọn Size, Màu sắc và bộ nút Tăng/Giảm số lượng.</p>
+                        <div class="badges">
+                            <span class="badge">Grid 60/40</span>
+                            <span class="badge">Flex Controls</span>
+                        </div>
+                        <div class="card-footer-actions">
+                            <a href="ex05-product/index.html" class="btn small btn-primary">Xem chi tiết bài làm →</a>
+                        </div>
+                    </article>
+
+                    <!-- Bài 6 -->
+                    <article class="exercise" data-aos="fade-up" data-aos-delay="350">
+                        <span class="num">BÀI 06</span>
+                        <h3>Admin Panel Dashboard</h3>
+                        <p>Fixed Sidebar đứng yên khi cuộn trang, kết hợp CSS Grid hiển thị 4 Stats Cards và bảng dữ liệu Data Table chiếm toàn bộ chiều ngang.</p>
+                        <div class="badges">
+                            <span class="badge">Fixed Sidebar</span>
+                            <span class="badge">Stats Cards</span>
+                        </div>
+                        <div class="card-footer-actions">
+                            <a href="ex06-dashboard/index.html" class="btn small btn-primary">Xem chi tiết bài làm →</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT, Đại học Lạc Hồng (LHU)</span>
+            <span>Thiết kế Web (111101) • Tuần 3: CSS Layout System</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../assets/script.js"></script>
+</body>
+</html>

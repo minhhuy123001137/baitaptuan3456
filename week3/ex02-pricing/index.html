@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 2: Bảng Giá Dịch Vụ (Flexbox Cards) | Trần Lê Minh Huy - LHU">
+    <title>Bài 2: Bảng Giá Dịch Vụ | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        .pricing-flex-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch; /* Đảm bảo cả 3 card có chiều cao bằng nhau */
+            gap: 24px;
+            margin-top: 36px;
+        }
+
+        .pricing-card {
+            flex: 1;
+            max-width: 380px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 36px 28px;
+            display: flex;
+            flex-direction: column; /* Trục dọc để margin-top: auto hoạt động */
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--duration-normal) var(--ease-spring);
+        }
+
+        /* Hover phóng to nhẹ và đổi viền nổi bật theo đề bài */
+        .pricing-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary-light);
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--primary-glow) 100%);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-gradient);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .price-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin: 16px 0 20px;
+        }
+
+        .price-number {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            font-family: var(--font-mono);
+            letter-spacing: -0.04em;
+        }
+
+        .price-unit {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0 30px;
+        }
+
+        .feature-list li {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list li.disabled {
+            color: var(--text-muted);
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        /* Kỹ thuật mấu chốt: Nút luôn ghim sát đáy bằng margin-top: auto */
+        .pricing-btn-wrap {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 960px) {
+            .pricing-flex-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .pricing-card {
+                max-width: 500px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 3</a></li>
+                <li><a href="../ex03-gallery/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up" style="text-align:center; max-width:760px; margin:0 auto 20px;">
+            <span class="eyebrow">TUẦN 03 • BÀI TẬP 02</span>
+            <h1>Bảng Giá Dịch Vụ Web • <span class="gradient-text">Trần Lê Minh Huy</span></h1>
+            <p class="lead">Ứng dụng Flexbox để dàn 3 thẻ ngang hàng nhau. Nút "Mua ngay" luôn nằm sát đáy nhờ <code>margin-top: auto</code> dù độ dài danh sách quyền lợi khác nhau.</p>
+        </div>
+
+        <!-- PRICING FLEXBOX CONTAINER -->
+        <div class="pricing-flex-container">
+            <!-- Gói 1: Basic -->
+            <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+                <span class="tag">GÓI CƠ BẢN</span>
+                <h3>Landing Page Cá Nhân</h3>
+                <p>Phù hợp cho cá nhân xây dựng Portfolio hoặc giới thiệu dịch vụ một trang duy nhất.</p>
+                <div class="price-wrap">
+                    <span class="price-number">1.500K</span>
+                    <span class="price-unit">/dự án</span>
+                </div>
+                <ul class="feature-list">
+                    <li>✓ 01 Trang Landing Page chuẩn Semantic HTML5</li>
+                    <li>✓ Bố cục Flexbox &amp; Grid hiện đại</li>
+                    <li>✓ Responsive 100% trên điện thoại di động</li>
+                    <li class="disabled">✕ Tích hợp Dark/Light Mode động</li>
+                    <li class="disabled">✕ Hiệu ứng chuyển động Animation nâng cao</li>
+                </ul>
+                <div class="pricing-btn-wrap">
+                    <button class="btn secondary" style="width:100%;">Chọn gói Cơ Bản</button>
+                </div>
+            </div>
+
+            <!-- Gói 2: Pro (Featured) -->
+            <div class="pricing-card featured" data-aos="fade-up" data-aos-delay="200">
+                <div class="popular-badge">PHỔ BIẾN NHẤT</div>
+                <span class="tag" style="background:var(--primary-color); color:#fff;">GÓI CHUYÊN NGHIỆP</span>
+                <h3>Full Website Đa Nền Tảng</h3>
+                <p>Lựa chọn tối ưu cho doanh nghiệp nhỏ, quán cafe hoặc dự án khởi nghiệp tại LHU.</p>
+                <div class="price-wrap">
+                    <span class="price-number">4.200K</span>
+                    <span class="price-unit">/dự án</span>
+                </div>
+                <ul class="feature-list">
+                    <li>✓ Bộ khung 3 - 5 trang hoàn chỉnh</li>
+                    <li>✓ Quản lý Design System với CSS Variables</li>
+                    <li>✓ Tích hợp chuyển đổi Dark/Light Mode</li>
+                    <li>✓ Hiệu ứng CSS Animations &amp; AOS mượt mà</li>
+                    <li>✓ Form liên hệ kiểm tra tính hợp lệ trực tiếp</li>
+                </ul>
+                <div class="pricing-btn-wrap">
+                    <button class="btn btn-primary" style="width:100%;">Chọn gói Chuyên Nghiệp</button>
+                </div>
+            </div>
+
+            <!-- Gói 3: Enterprise -->
+            <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+                <span class="tag">GÓI CAO CẤP</span>
+                <h3>Hệ Thống Web &amp; AI App</h3>
+                <p>Giải pháp toàn diện với Dashboard quản trị, biểu đồ số liệu và kết nối API thông minh.</p>
+                <div class="price-wrap">
+                    <span class="price-number">8.900K</span>
+                    <span class="price-unit">/dự án</span>
+                </div>
+                <ul class="feature-list">
+                    <li>✓ Tất cả quyền lợi của gói Chuyên Nghiệp</li>
+                    <li>✓ Giao diện Dashboard quản trị dữ liệu lớn</li>
+                    <li>✓ Tích hợp API trí tuệ nhân tạo (Gemini AI)</li>
+                    <li>✓ Bảo trì và tối ưu hiệu năng 12 tháng</li>
+                </ul>
+                <div class="pricing-btn-wrap">
+                    <button class="btn secondary" style="width:100%;">Tư vấn giải pháp riêng</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-note" data-aos="fade-up" style="margin-top:40px;">
+            <strong>Giải thích kỹ thuật:</strong> Khi container cha là <code>display: flex</code> hướng cột, thuộc tính <code>margin-top: auto</code> trên khối nút bấm sẽ tự động hấp thụ toàn bộ khoảng trống còn dư phía trên để ấn định nút luôn nằm ở vị trí đáy thẻ, tạo nên sự thẳng hàng tăm tắp giữa 3 card.
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 2 Tuần 3</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 4: Dark/Light Mode Theme System | Trần Lê Minh Huy - LHU">
+    <title>Bài 4: Dark/Light Mode Theme System | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 4</a></li>
+                <li><a href="../ex05-gallery/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up" style="text-align:center; max-width:800px; margin:0 auto 30px;">
+            <span class="eyebrow">TUẦN 04 • BÀI TẬP 04</span>
+            <h1>Hệ Thống Giao Diện Sáng / Tối (Dark &amp; Light Mode)</h1>
+            <p class="lead">Khai báo 2 bộ biến màu (<code>--bg-color</code>, <code>--text-color</code>, <code>--card-bg</code>). Khi thêm class <code>.dark</code> vào thẻ <code>&lt;body&gt;</code>, toàn bộ màu sắc của trang web sẽ tự động chuyển đổi êm ái nhờ hiệu ứng <code>transition</code>.</p>
+            
+            <button class="btn btn-primary" onclick="toggleDarkMode()" style="margin-top:10px;">
+                🌓 Bấm Để Chuyển Đổi Giao Diện Sáng / Tối
+            </button>
+        </div>
+
+        <div class="grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="card">
+                <span class="tag">DESIGN TOKEN 01</span>
+                <h3>Chế Độ Sáng (Light Mode)</h3>
+                <p>Mặc định tại <code>:root</code>: Nền trắng dịu <code>#f8fafc</code>, chữ màu than đậm <code>#0f172a</code>, viền sáng và card nổi nhẹ, thích hợp đọc ban ngày.</p>
+                <div class="badges">
+                    <span class="badge">:root</span>
+                    <span class="badge">#f8fafc</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="tag">DESIGN TOKEN 02</span>
+                <h3>Chế Độ Tối (Dark Mode)</h3>
+                <p>Định nghĩa tại <code>body.dark</code>: Nền tối công nghệ <code>#090d16</code>, chữ sáng <code>#f8fafc</code>, card navy đậm và viền tinh tế, bảo vệ mắt ban đêm.</p>
+                <div class="badges">
+                    <span class="badge">body.dark</span>
+                    <span class="badge">#090d16</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="tag">CHUYỂN ĐỔI MƯỢT MÀ</span>
+                <h3>CSS Transition</h3>
+                <p>Áp dụng <code>transition: background-color 0.35s ease, color 0.35s ease;</code> giúp mắt người dùng thích nghi dịu nhẹ khi thay đổi chế độ.</p>
+                <div class="badges">
+                    <span class="badge">0.35s ease</span>
+                    <span class="badge">Smooth</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-note" data-aos="fade-up" style="margin-top:30px;">
+            <strong>Lợi thế của Biến CSS:</strong> Không cần phải viết lại CSS cho hàng trăm class con. Chỉ cần thay đổi giá trị của các biến màu cốt lõi tại một nơi duy nhất trên thẻ body, toàn bộ trang web sẽ đồng bộ thay đổi ngay lập tức!
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 4 Tuần 4</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>

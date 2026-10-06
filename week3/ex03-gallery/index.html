@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 3: Lưới Ảnh Tự Do (CSS Grid Masonry) | Trần Lê Minh Huy - LHU">
+    <title>Bài 3: Lưới Ảnh Tự Do | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* CSS Grid Masonry-like với gap 15px đồng nhất */
+        .masonry-showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 220px;
+            grid-auto-flow: dense;
+            gap: 15px; /* Đề bài yêu cầu đồng nhất 15px */
+            margin-top: 36px;
+        }
+
+        .masonry-item {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--duration-normal) var(--ease-smooth);
+        }
+
+        .masonry-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s var(--ease-smooth);
+        }
+
+        /* Span rules theo yêu cầu */
+        .masonry-item.span-2x2 {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        .masonry-item.span-tall {
+            grid-row: span 2;
+        }
+        .masonry-item.span-wide {
+            grid-column: span 2;
+        }
+
+        .masonry-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg), 0 0 25px var(--primary-glow);
+            border-color: var(--primary-color);
+        }
+
+        .masonry-item:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Overlay khi hover */
+        .item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 30%, rgba(9, 13, 22, 0.9) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all var(--duration-normal) var(--ease-smooth);
+        }
+
+        .masonry-item:hover .item-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .item-overlay h4 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .item-overlay p {
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .masonry-showcase-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .masonry-showcase-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 180px;
+            }
+            .item-overlay {
+                opacity: 1;
+                transform: none;
+                background: linear-gradient(180deg, transparent 40%, rgba(9, 13, 22, 0.85) 100%);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .masonry-showcase-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 220px;
+            }
+            .masonry-item.span-2x2,
+            .masonry-item.span-wide,
+            .masonry-item.span-tall {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 3</a></li>
+                <li><a href="../ex04-navbar/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up">
+            <span class="eyebrow">TUẦN 03 • BÀI TẬP 03</span>
+            <h1>Lưới Ảnh Tự Do (CSS Grid Masonry-Like)</h1>
+            <p class="lead">Thư viện ảnh dự án của <strong>Trần Lê Minh Huy</strong> với 8+ ô ảnh có kích thước đan xen nhau nghệ thuật. Khoảng cách <code>gap: 15px</code> luôn đồng nhất theo đúng yêu cầu đề bài.</p>
+        </div>
+
+        <!-- MASONRY GRID SHOWCASE -->
+        <div class="masonry-showcase-grid" data-aos="fade-up" data-aos-delay="100">
+            <!-- 1. Ô lớn 2x2 -->
+            <div class="masonry-item span-2x2">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="Dự án AI Chipset" loading="lazy">
+                <div class="item-overlay">
+                    <span class="badge" style="width:fit-content; margin-bottom:8px;">AI ARCHITECTURE</span>
+                    <h4>Kiến Trúc Vi Mạch Thông Minh</h4>
+                    <p>Dự án nghiên cứu: Trần Lê Minh Huy • LHU</p>
+                </div>
+            </div>
+
+            <!-- 2. Ô cao (1 cột, 2 hàng) -->
+            <div class="masonry-item span-tall">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80" alt="Smart City" loading="lazy">
+                <div class="item-overlay">
+                    <span class="badge" style="width:fit-content; margin-bottom:8px;">CAMPUS</span>
+                    <h4>ĐH Lạc Hồng Smart Portal</h4>
+                    <p>Thiết kế hệ thống: Minh Huy</p>
+                </div>
+            </div>
+
+            <!-- 3. Ô chuẩn -->
+            <div class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" alt="Workspace" loading="lazy">
+                <div class="item-overlay">
+                    <h4>Coding Workspace</h4>
+                    <p>Góc làm việc Frontend</p>
+                </div>
+            </div>
+
+            <!-- 4. Ô chuẩn -->
+            <div class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80" alt="UI Design" loading="lazy">
+                <div class="item-overlay">
+                    <h4>UI/UX Prototyping</h4>
+                    <p>Wireframe &amp; Interaction</p>
+                </div>
+            </div>
+
+            <!-- 5. Ô rộng (2 cột, 1 hàng) -->
+            <div class="masonry-item span-wide">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80" alt="Cloud Network" loading="lazy">
+                <div class="item-overlay">
+                    <span class="badge" style="width:fit-content; margin-bottom:8px;">NETWORK</span>
+                    <h4>Dữ Liệu Đám Mây Toàn Cầu</h4>
+                    <p>Hệ thống truyền thông số</p>
+                </div>
+            </div>
+
+            <!-- 6. Ô cao (1 cột, 2 hàng) -->
+            <div class="masonry-item span-tall">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=80" alt="Gaming UI" loading="lazy">
+                <div class="item-overlay">
+                    <span class="badge" style="width:fit-content; margin-bottom:8px;">RETRO</span>
+                    <h4>Web Game Arcade</h4>
+                    <p>Giao diện Pixel hoài niệm</p>
+                </div>
+            </div>
+
+            <!-- 7. Ô chuẩn -->
+            <div class="masonry-item">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" alt="Cyber Security" loading="lazy">
+                <div class="item-overlay">
+                    <h4>Bảo Mật Dữ Liệu</h4>
+                    <p>Form Validation an toàn</p>
+                </div>
+            </div>
+
+            <!-- 8. Ô rộng (2 cột, 1 hàng) -->
+            <div class="masonry-item span-wide">
+                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80" alt="Agile Team" loading="lazy">
+                <div class="item-overlay">
+                    <span class="badge" style="width:fit-content; margin-bottom:8px;">AGILE SCRUM</span>
+                    <h4>Văn Hóa Vibe Coding Nhóm</h4>
+                    <p>Phối hợp Git Flow cùng AI</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-note" data-aos="fade-up" style="margin-top:30px;">
+            <strong>Điểm sáng kỹ thuật:</strong> Thuộc tính <code>grid-auto-flow: dense;</code> kích hoạt thuật toán lấp đầy thông minh của trình duyệt: khi có ô trống xuất hiện do các khối to nhỏ đan xen, các phần tử tiếp theo sẽ tự động được đưa lên lấp kín, tạo hiệu ứng mượt mà như Pinterest.
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 3 Tuần 3</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>

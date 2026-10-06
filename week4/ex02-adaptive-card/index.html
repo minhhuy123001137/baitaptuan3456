@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bài 2: Adaptive Card Layout | Trần Lê Minh Huy - LHU">
+    <title>Bài 2: Adaptive Card Layout | Trần Lê Minh Huy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../../assets/style.css">
+
+    <style>
+        /* ========================================================
+           ADAPTIVE CARD: MOBILE FIRST (COLUMN) -> DESKTOP (ROW)
+        ======================================================== */
+        .adaptive-card-frame {
+            display: flex;
+            flex-direction: column; /* MOBILE FIRST: Mặc định ảnh nằm trên, chữ nằm dưới */
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-top: 30px;
+            transition: all var(--duration-normal) var(--ease-spring);
+        }
+
+        .adaptive-card-frame:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+        }
+
+        .card-img-side {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            background: var(--card-surface);
+            overflow: hidden;
+        }
+
+        .card-img-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s var(--ease-smooth);
+        }
+
+        .adaptive-card-frame:hover .card-img-side img {
+            transform: scale(1.06);
+        }
+
+        .card-info-side {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        /* MEDIA QUERY: Mở rộng sang Desktop (>= 768px) thành hàng ngang */
+        @media screen and (min-width: 768px) {
+            .adaptive-card-frame {
+                flex-direction: row; /* DESKTOP: Ảnh nằm bên trái, chữ nằm bên phải */
+                min-height: 380px;
+            }
+
+            .card-img-side {
+                width: 45%;
+                height: auto;
+            }
+
+            .card-info-side {
+                width: 55%;
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="../../index.html" class="logo">
+                <span class="logo-symbol">&lt;/&gt;</span>
+                <span class="logo-text">MinhHuy<span class="accent-dot">.</span></span>
+            </a>
+            <ul class="menu">
+                <li><a href="../../index.html" class="menu-link">Trang chủ</a></li>
+                <li><a href="../index.html" class="menu-link">← Danh sách Tuần 4</a></li>
+                <li><a href="../ex03-smart-nav/index.html" class="menu-link">Bài kế tiếp →</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="icon-sun">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </span>
+                    <span class="icon-moon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0 60px;">
+        <div data-aos="fade-up">
+            <span class="eyebrow">TUẦN 04 • BÀI TẬP 02</span>
+            <h1>Thẻ Thích Ứng (Adaptive Card Layout)</h1>
+            <p class="lead">Sử dụng Flexbox <code>flex-direction</code>: Trên Mobile ảnh nằm trên và chữ nằm dưới (<code>column</code>); trên Desktop (&ge; 768px) ảnh nằm bên trái và chữ nằm bên phải (<code>row</code>).</p>
+        </div>
+
+        <!-- THẺ ADAPTIVE SẢN PHẨM / DỰ ÁN CỦA MINH HUY -->
+        <article class="adaptive-card-frame" data-aos="fade-up" data-aos-delay="100">
+            <!-- ẢNH SẢN PHẨM -->
+            <div class="card-img-side">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80" alt="Nike Air Pulse SuperSpeed Pro">
+                <span class="tag" style="position:absolute; top:16px; left:16px; margin:0; background:rgba(9,13,22,0.85); color:#fff;">HOT 2026</span>
+            </div>
+
+            <!-- NỘI DUNG CHỮ -->
+            <div class="card-info-side">
+                <div>
+                    <span class="eyebrow" style="font-size:0.75rem; margin-bottom:8px;">THIẾT KẾ BỞI TRẦN LÊ MINH HUY</span>
+                    <h2 style="font-size:1.8rem; margin-bottom:12px;">Nike Air Pulse SuperSpeed Pro</h2>
+                    <p style="color:var(--text-secondary); line-height:1.65; margin-bottom:20px;">
+                        Đột phá công nghệ đệm khí phản hồi lực tức thì. Giao diện thẻ được thiết kế đáp ứng hoàn hảo hai tư thế hiển thị nhờ Flexbox đảo trục thông minh.
+                    </p>
+                    <div class="badges" style="margin-bottom:24px;">
+                        <span class="badge">Flyknit Siêu Nhẹ</span>
+                        <span class="badge">Đệm Khí AI</span>
+                        <span class="badge">Bảo Hành 12 Tháng</span>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:20px; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <span style="font-size:1.8rem; font-weight:800; color:var(--primary-color); font-family:var(--font-mono);">2.890.000₫</span>
+                        <span style="font-size:0.9rem; color:var(--text-muted); text-decoration:line-through; margin-left:8px;">3.450.000₫</span>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn small secondary">Chi tiết</button>
+                        <button class="btn small btn-primary">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <div class="code-note" data-aos="fade-up" style="margin-top:30px;">
+            <strong>Nguyên tắc Mobile First:</strong> Đoạn mã CSS gốc khai báo <code>.adaptive-card-frame { display: flex; flex-direction: column; }</code> để phục vụ màn hình điện thoại trước tiên. Khi màn hình đạt tối thiểu 768px, chỉ cần 1 dòng lệnh <code>flex-direction: row;</code> trong Media Query để dàn ngang sang Desktop.
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>© 2026 <strong>Trần Lê Minh Huy</strong> • Khoa CNTT LHU</span>
+            <span>Học phần Thiết kế Web (111101) • Bài 2 Tuần 4</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="../../assets/script.js"></script>
+</body>
+</html>
